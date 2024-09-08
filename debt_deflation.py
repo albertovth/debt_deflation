@@ -56,12 +56,11 @@ if 'initialized' not in st.session_state:
     st.session_state.X_M[0] = 3 + x * st.session_state.total_debt[0]
     st.session_state.Y[0] = st.session_state.C[0] + st.session_state.G[0] + st.session_state.I[0] + st.session_state.X_M[0]
 
-# Button to simulate the next period
-if st.button('Next Period'):
+# Button to simulate the next period with a unique key
+if st.button('Next Period', key="next_period_button"):
     if st.session_state.current_period < periods - 1:
         st.session_state.current_period += 1
         simulate_step()
-
 
 def simulate_step():
     t = st.session_state.current_period
