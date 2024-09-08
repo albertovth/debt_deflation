@@ -16,18 +16,18 @@ The number of periods leading to financial collapse is difficult to predict, and
 It is important to add as a disclaimer that there is no model that can with complete accuracy predict financial shocks and debt deflation. This is because of the inherent complexity of the processes involved, ranging from structural economic relations to psychological aspects of economies. The purpose of this simple illustration is therefore not to predict, but to simplify and illustrate complex ideas graphically. 
 ''')
 
-c = st.slider('Private consumption as proportion of total debt stock', min_value=0.05, max_value=0.30, value=0.12, step=0.01)
-gc = st.slider('Government consumption as proportion of total debt stock', min_value=0.2, max_value=0.8, value=0.5, step=0.01)
-i = st.slider('Total gross investment as proportion of total debt stock', min_value=0.05, max_value=0.30, value=0.09, step=0.01)
-ai_investment_ratio = st.slider('AI autonomous investment ratio as proportion of GDP', min_value=0.01, max_value=0.10, value=0.05, step=0.01)
-tax_rate = st.slider('Tax rate as proportion of GDP', min_value=0.2, max_value=0.6, value=0.4, step=0.01)
-k = st.slider('Proportion of GDP from net exports', min_value=0.01, max_value=0.10, value=0.01, step=0.01)
-x = st.slider('Export total debt relation', min_value=0.01, max_value=0.10, value=0.04, step=0.01)
-private_debt_ratio_initial = st.slider('Initial private debt ratio as proportion of GDP', min_value=1.0, max_value=3.0, value=2.3, step=0.1)
-government_debt_ratio_initial = st.slider('Initial government debt ratio as proportion of GDP', min_value=0.1, max_value=1.0, value=0.45, step=0.05)
-debt_growth_rate = st.slider('Debt growth rate (initial)', min_value=0.01, max_value=0.10, value=0.0457, step=0.001)
-threshold_periods_for_financial_collapse = st.slider('Threshold periods for financial collapse', min_value=1, max_value=30, value=15, step=1)
-periods = st.slider('Select the number of periods (years) to simulate:', min_value=10, max_value=100, value=20, step=1)
+c = st.slider('Private consumption as proportion of total debt stock', min_value=0.05, max_value=0.30, value=0.12, step=0.01, key="slider_c")
+gc = st.slider('Government consumption as proportion of total debt stock', min_value=0.2, max_value=0.8, value=0.5, step=0.01, key="slider_gc")
+i = st.slider('Total gross investment as proportion of total debt stock', min_value=0.05, max_value=0.30, value=0.09, step=0.01, key="slider_i")
+ai_investment_ratio = st.slider('AI autonomous investment ratio as proportion of GDP', min_value=0.01, max_value=0.10, value=0.05, step=0.01, key="slider_ai_investment_ratio")
+tax_rate = st.slider('Tax rate as proportion of GDP', min_value=0.2, max_value=0.6, value=0.4, step=0.01, key="slider_tax_rate")
+k = st.slider('Proportion of GDP from net exports', min_value=0.01, max_value=0.10, value=0.01, step=0.01, key="slider_k")
+x = st.slider('Export total debt relation', min_value=0.01, max_value=0.10, value=0.04, step=0.01, key="slider_x")
+private_debt_ratio_initial = st.slider('Initial private debt ratio as proportion of GDP', min_value=1.0, max_value=3.0, value=2.3, step=0.1, key="slider_private_debt_ratio_initial")
+government_debt_ratio_initial = st.slider('Initial government debt ratio as proportion of GDP', min_value=0.1, max_value=1.0, value=0.45, step=0.05, key="slider_government_debt_ratio_initial")
+debt_growth_rate = st.slider('Debt growth rate (initial)', min_value=0.01, max_value=0.10, value=0.0457, step=0.001, key="slider_debt_growth_rate")
+threshold_periods_for_financial_collapse = st.slider('Threshold periods for financial collapse', min_value=1, max_value=30, value=15, step=1, key="slider_threshold_periods")
+periods = st.slider('Select the number of periods (years) to simulate:', min_value=10, max_value=100, value=20, step=1, key="slider_periods")
 
 # Parameters calibrated
 A = 0               # Autonomous consumption
@@ -36,6 +36,7 @@ gi = 0.35            # Government propensity to invest
 initial_debt_to_gdp_ratio = 2.75  # Total debt starts at 2.75 times GDP
 debt_to_gdp_threshold = 3.25  # Maximum allowed debt-to-GDP ratio
 
+# Check if session state is initialized
 if 'initialized' not in st.session_state:
     st.session_state.initialized = True
     st.session_state.time_steps = periods
