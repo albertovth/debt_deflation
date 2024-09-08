@@ -86,11 +86,6 @@ def simulate_step():
 
     st.session_state.debt_to_gdp_ratio[t] = st.session_state.total_debt[t] / st.session_state.Y[t]
 
-if st.button('Next Period'):
-    if st.session_state.current_period < periods - 1:
-        st.session_state.current_period += 1
-        simulate_step()
-
 # Pre-initialization step for year -1 to set the flow of income (GDP)
 Y_minus1 = 579  # Set a pre-initial GDP value (slightly lower than Y[0])
 
