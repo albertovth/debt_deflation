@@ -56,6 +56,13 @@ if 'initialized' not in st.session_state:
     st.session_state.X_M[0] = 3 + x * st.session_state.total_debt[0]
     st.session_state.Y[0] = st.session_state.C[0] + st.session_state.G[0] + st.session_state.I[0] + st.session_state.X_M[0]
 
+# Button to simulate the next period
+if st.button('Next Period'):
+    if st.session_state.current_period < periods - 1:
+        st.session_state.current_period += 1
+        simulate_step()
+
+
 def simulate_step():
     t = st.session_state.current_period
     if t == 0:
@@ -119,15 +126,16 @@ growth_failure_counter = 0
 growth_benchmark = 0.1
 
 years = np.arange(2024, 2024 + periods)
+current_years = years[:st.session_state.current_period + 1]
 
 # Plot the main results (GDP, Consumption, Investment, etc.)
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(years[1:], Y[1:], label='GDP (Y)')
-ax.plot(years[1:], C[1:], label='Consumption (C)')
-ax.plot(years[1:], G[1:], label='Government Spending (G)')
-ax.plot(years[1:], I[1:], label='Investment (I)')
-ax.plot(years[1:], X_M[1:], label='Net Exports (X-M)')
-ax.plot(years[1:], ai_investment[1:], label='AI Investment (AI)')
+ax.plot(current_years[1:], st.session_state.Y[1:], label='GDP (Y)')
+ax.plot(current_years[1:], st.session_state.C[1:], label='Consumption (C)')
+ax.plot(current_years[1:], st.session_state.G[1:], label='Government Spending (G)')
+ax.plot(current_years[1:], st.session_state.I[1:], label='Investment (I)')
+ax.plot(current_years[1:], st.session_state.X_M[1:], label='Net Exports (X-M)')
+ax.plot(current_years[1:], st.session_state.ai_investment[1:], label='AI Investment (AI)')
 ax.set_title('Macroeconomic Model for Debt Deflation (Starting from 2024)')
 ax.set_xlabel('Year')
 ax.set_ylabel('Monetary Units')
@@ -137,8 +145,8 @@ st.pyplot(fig)
 
 # Plot GDP and Total Debt Stock on the same chart
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(years[1:], Y[1:], label='GDP (Y)')
-ax.plot(years[1:], total_debt[1:], label='Total Debt Stock')
+ax.plot(current_years[1:], st.session_state.Y[1:], label='GDP (Y)')
+ax.plot(current_years[1:], st.session_state.total_debt[1:], label='Total Debt Stock')
 ax.set_title('GDP and Total Debt Stock Over Time')
 ax.set_xlabel('Year')
 ax.set_ylabel('Monetary Units')
@@ -148,7 +156,7 @@ st.pyplot(fig)
 
 # Plot the debt-to-GDP ratio
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(years[1:], st.session_state.debt_to_gdp_ratio[1:], label='Debt-to-GDP Ratio')
+ax.plot(current_years[1:], st.session_state.debt_to_gdp_ratio[1:], label='Debt-to-GDP Ratio')
 ax.set_title('Debt-to-GDP Ratio Over Time')
 ax.set_xlabel('Year')
 ax.set_ylabel('Debt-to-GDP Ratio')
@@ -158,11 +166,11 @@ st.pyplot(fig)
 
 # Plot the rates of growth (Ro) including Debt Stock Growth starting from 2024
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(years[1:], st.session_state.Y[1:], label='Rate of Growth of GDP (Ro_Y)')
-ax.plot(years[1:], st.session_state.C[1:], label='Rate of Growth of Consumption (Ro_C)')
-ax.plot(years[1:], st.session_state.G[1:], label='Rate of Growth of Government Spending (Ro_G)')
-ax.plot(years[1:], st.session_state.I[1:], label='Rate of Growth of Investment (Ro_I)')
-ax.plot(years[1:], st.session_state.total_debt[1:], label='Rate of Growth of Debt Stock (Ro_Debt)')
+ax.plot(current_years[1:], st.session_state.Y[1:], label='Rate of Growth of GDP (Ro_Y)')
+ax.plot(current_years[1:], st.session_state.C[1:], label='Rate of Growth of Consumption (Ro_C)')
+ax.plot(current_years[1:], st.session_state.G[1:], label='Rate of Growth of Government Spending (Ro_G)')
+ax.plot(current_years[1:], st.session_state.I[1:], label='Rate of Growth of Investment (Ro_I)')
+ax.plot(current_years[1:], st.session_state.total_debt[1:], label='Rate of Growth of Debt Stock (Ro_Debt)')
 ax.set_title('Rate of Growth of GDP, Consumption, Investment, Government Spending, and Debt Stock')
 ax.set_xlabel('Year')
 ax.set_ylabel('Rate of Growth (%)')
@@ -172,8 +180,8 @@ st.pyplot(fig)
 
 # Plot wage share and employment over time
 fig, ax = plt.subplots(figsize=(10, 6))
-ax.plot(years[1:], st.session_state.wage_share[1:], label='Wage Share')
-ax.plot(years[1:], st.session_state.E[1:], label='Employment Rate')
+ax.plot(current_years[1:], st.session_state.wage_share[1:], label='Wage Share')
+ax.plot(current_years[1:], st.session_state.E[1:], label='Employment Rate')
 ax.set_title('Wage Share and Employment Rate Over Time')
 ax.set_xlabel('Year')
 ax.set_ylabel('Percentage')
